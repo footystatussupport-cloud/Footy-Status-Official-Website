@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>Reset Password — Footy Status</title>
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/reset-password.css" />
+</head>
+<body>
+  <main class="reset-shell">
+    <a class="reset-brand" href="../index.html" aria-label="Footy Status home">
+      <img src="../assets/footy-status-header-logo.png" alt="Footy Status" width="220" height="88" />
+    </a>
+
+    <section class="reset-card" aria-live="polite">
+      <div id="verifyingState" class="state state-center">
+        <div class="spinner" aria-hidden="true"></div>
+        <h1>Verifying Reset Link</h1>
+        <p>Please wait while we securely verify your password-reset link.</p>
+      </div>
+
+      <div id="formState" class="state" hidden>
+        <span class="security-mark" aria-hidden="true">✓</span>
+        <h1>Create a New Password</h1>
+        <p>Enter a new password for your Footy Status account.</p>
+        <form id="resetForm" novalidate>
+          <div class="field">
+            <label for="newPassword">New Password</label>
+            <div class="password-control">
+              <input id="newPassword" name="new-password" type="password" autocomplete="new-password" minlength="8" required aria-describedby="passwordHint newPasswordError" />
+              <button type="button" class="toggle-password" data-target="newPassword" aria-label="Show new password">Show</button>
+            </div>
+            <small id="passwordHint">Use at least 8 characters.</small>
+            <span class="field-error" id="newPasswordError" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="confirmPassword">Confirm New Password</label>
+            <div class="password-control">
+              <input id="confirmPassword" name="confirm-password" type="password" autocomplete="new-password" minlength="8" required aria-describedby="confirmPasswordError" />
+              <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Show confirmed password">Show</button>
+            </div>
+            <span class="field-error" id="confirmPasswordError" role="alert"></span>
+          </div>
+          <p class="form-error" id="formError" role="alert"></p>
+          <button class="primary-button" id="saveButton" type="submit">Save New Password</button>
+        </form>
+      </div>
+
+      <div id="successState" class="state state-center" hidden>
+        <span class="success-mark" aria-hidden="true">✓</span>
+        <h1>Password Updated</h1>
+        <p>Your Footy Status password has been successfully changed.</p>
+        <p class="supporting-copy">You can now return to the Footy Status app and sign in with your new password.</p>
+        <div class="actions"><a class="primary-button" href="../download.html">Open Footy Status</a><a class="secondary-button" href="../index.html">Return to Home</a></div>
+      </div>
+
+      <div id="invalidState" class="state state-center" hidden>
+        <span class="invalid-mark" aria-hidden="true">!</span>
+        <h1>Reset Link Invalid or Expired</h1>
+        <p>This password-reset link is no longer valid. Request a new link from the Footy Status app.</p>
+        <div class="actions"><a class="primary-button" href="../download.html">Open Footy Status</a><a class="secondary-button" href="../index.html">Return to Home</a></div>
+      </div>
+    </section>
+    <p class="reset-footer">Secure account recovery powered by Footy Status.</p>
+  </main>
+  <script type="module" src="../js/reset-password.js"></script>
+</body>
+</html>
