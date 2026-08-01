@@ -56,9 +56,124 @@
         </div>
         <div class="phone-mock">
           <div class="phone-screen">
-            <img class="ph-logo" src="assets/logo.png" alt="Footy Status app preview placeholder" />
-            <p class="ph-caption">App preview area</p>
-            <div class="ph-placeholder">Real Footy Status app screenshots will appear here at launch.</div>
+            <div class="app-shell" aria-label="Footy Status app preview">
+              <div class="app-statusbar">
+                <span>9:22</span>
+                <div class="app-status-icons" aria-hidden="true">
+                  <span class="signal-bars"><i></i><i></i><i></i></span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20h.01"/></svg>
+                  <span class="battery"><span class="battery-level"></span></span>
+                </div>
+              </div>
+
+              <div class="app-header">
+                <img class="app-wordmark" src="assets/footy-status-header-logo.png" alt="Footy Status" />
+                <div class="app-header-actions">
+                  <button type="button" class="app-action app-bell" aria-label="Notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span>9</span>
+                  </button>
+                  <div class="app-avatar" aria-hidden="true"></div>
+                </div>
+              </div>
+
+              <div class="app-feed">
+                <div class="app-section-head">
+                  <h3>Notifications</h3>
+                  <span>View All</span>
+                </div>
+
+                <article class="app-note">
+                  <div class="app-note-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                  </div>
+                  <div>
+                    <strong>Clip liked</strong>
+                    <p>Elias liked your clip "Let's play football".</p>
+                  </div>
+                </article>
+
+                <article class="app-note">
+                  <div class="app-note-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                  </div>
+                  <div>
+                    <strong>New team update</strong>
+                    <p>Bay State FC tryouts are finally here!!</p>
+                  </div>
+                </article>
+
+                <article class="app-note">
+                  <div class="app-note-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                  </div>
+                  <div>
+                    <strong>Added to roster</strong>
+                    <p>You were added to the roster for Bay State FC.</p>
+                  </div>
+                </article>
+
+                <div class="app-section-head">
+                  <h3>News / Updates</h3>
+                  <span>Within 150 miles</span>
+                </div>
+
+                <article class="app-story">
+                  <div class="app-story-top">
+                    <div class="app-club-mark">BS</div>
+                    <strong>Bay State HS</strong>
+                    <span>3 media</span>
+                  </div>
+                  <div class="app-story-body">
+                    <div class="app-thumb app-thumb-match"></div>
+                    <div class="app-story-copy">
+                      <h4>A Perfect Record Weekend for the Club!</h4>
+                      <p>What a weekend it was. Five teams earned victories and showcased their hard work and passion.</p>
+                      <time datetime="2026-07-29T02:41">Jul 29, 2026 at 2:41 AM</time>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="app-story">
+                  <div class="app-story-top">
+                    <div class="app-club-mark">BS</div>
+                    <strong>Bay State HS</strong>
+                    <span>3 media</span>
+                  </div>
+                  <div class="app-story-body">
+                    <div class="app-thumb app-thumb-tryout"></div>
+                    <div class="app-story-copy">
+                      <h4>Bay State FC tryouts are finally here!!</h4>
+                      <p>Join one of the region's fastest-growing soccer clubs and train in a competitive player-first environment.</p>
+                      <time datetime="2026-07-29T09:15">Jul 29, 2026 at 9:15 AM</time>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <nav class="app-tabbar" aria-label="App navigation preview">
+                <button type="button" class="is-active" aria-current="page">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>
+                  <span>Home</span>
+                </button>
+                <button type="button">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+                  <span>Matches</span>
+                </button>
+                <button type="button">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="8 5 19 12 8 19 8 5"></polygon></svg>
+                  <span>Next Up</span>
+                </button>
+                <button type="button">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <span>Explore</span>
+                </button>
+                <button type="button">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="19" cy="12" r="1.8"></circle></svg>
+                  <span>Other</span>
+                </button>
+              </nav>
+            </div>
           </div>
         </div>
         <div class="float-card card-2">
