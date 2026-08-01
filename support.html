@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Support — Footy Status</title>
+<meta name="description" content="Footy Status connects players, parents, coaches, teams, scouts, referees, and leagues through one powerful soccer platform. Coming soon to iOS and Android." />
+<link rel="icon" type="image/png" href="assets/logo.png" />
+<link rel="apple-touch-icon" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body><a class="visually-hidden" href="#main">Skip to main content</a><header class="navbar" id="navbar"><div class="container"><a href="index.html" class="brand"><img src="assets/footy-status-header-logo.png" alt="Footy Status" width="134" height="53"></a><nav class="nav-links" aria-label="Primary"><a href="index.html">Home</a><a href="features.html">Features</a><a href="pro.html">Footy Status Pro</a><a href="organizations.html">Organizations</a><a href="support.html" class="active" aria-current="page">Support</a><a href="download.html">Download</a></nav><div class="nav-actions"><a href="download.html" class="btn btn-primary btn-sm nav-cta nav-cta-desktop">Get the App</a><button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobilePanel"><span></span><span></span><span></span></button></div></div></header><div class="mobile-panel" id="mobilePanel"><a href="index.html">Home</a><a href="features.html">Features</a><a href="pro.html">Footy Status Pro</a><a href="organizations.html">Organizations</a><a href="support.html" class="active" aria-current="page">Support</a><a href="download.html">Download</a><a href="download.html" class="btn btn-primary">Get the App</a></div><main id="main" class="page-support"><section class="section section--alt" id="safety">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Trust &amp; safety</span>
+        <h2>A Safe and Respectful Soccer Community</h2>
+        <p>Footy Status is committed to creating a safe and respectful environment for players, parents, coaches, teams, scouts, referees, and leagues.</p>
+      </div>
+
+      <div class="safety-grid" id="safetyGrid"></div>
+
+      <p class="safety-disclaimer">Footy Status uses these tools to support a safer community experience, but no platform can guarantee complete safety. Users should always exercise good judgment and report concerning behavior.</p>
+    </div>
+  </section>
+<section class="section" id="support">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Get in touch</span>
+        <h2>Contact Us</h2>
+        <p>Reach out about partnerships, app support, league pairing, advertising opportunities, or general questions.</p>
+      </div>
+
+      <div class="contact-wrap">
+        <div class="contact-info reveal">
+          <p>Our team typically responds within a few business days. Choose the reason that best fits your message so we can route it correctly.</p>
+          <span class="contact-email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            support@footystatus.com <span style="font-weight:500; color:var(--muted-light); font-size:0.8rem;">(placeholder)</span>
+          </span>
+          <ul class="contact-reasons">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Account support</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> League partnership</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Team or academy partnership</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Advertising inquiry</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> General question</li>
+          </ul>
+        </div>
+
+        <div class="form-card reveal">
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="contactName">Full name</label>
+                <input type="text" id="contactName" name="name" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="contactEmail">Email address</label>
+                <input type="email" id="contactEmail" name="email" required autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="contactOrg">Organization or team name</label>
+              <input type="text" id="contactOrg" name="organization" autocomplete="organization" />
+            </div>
+
+            <div class="field">
+              <label for="contactReason">Reason for contacting</label>
+              <select id="contactReason" name="reason" required>
+                <option value="" disabled selected>Select a reason</option>
+                <option value="account-support">Account support</option>
+                <option value="league-partnership">League partnership</option>
+                <option value="team-academy-partnership">Team or academy partnership</option>
+                <option value="advertising">Advertising inquiry</option>
+                <option value="general">General question</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="contactMessage">Message</label>
+              <textarea id="contactMessage" name="message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-navy" style="width:100%;">Send Message</button>
+            <p class="form-success" id="contactSuccess" role="status">Thanks for reaching out! We've received your message and will be in touch soon.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="section section--alt" id="faq">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Questions</span>
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section></main><footer class="footer"><div class="container"><div class="footer-top"><div class="footer-brand"><a href="index.html" class="brand"><img src="assets/footy-status-header-logo.png" alt="Footy Status"></a><p>The complete soccer platform for every side of the game.</p></div><div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="features.html">Features</a></li><li><a href="pro.html">Footy Status Pro</a></li></ul></div><div class="footer-col"><h4>Community</h4><ul><li><a href="organizations.html">Organizations</a></li><li><a href="support.html">Support</a></li><li><a href="download.html">Download</a></li></ul></div><div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:footystatussupport@gmail.com">Email Support</a></li><li><a href="support.html#faq">FAQ</a></li></ul></div></div><div class="footer-bottom"><p>&copy; 2026 Footy Status. All rights reserved.</p></div></div></footer><script src="js/main.js"></script></body></html>

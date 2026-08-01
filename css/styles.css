@@ -1210,3 +1210,6 @@ select:focus-visible,
   .phone-mock { width: 240px; height: 490px; }
   .reel-mock { width: 210px; height: 420px; }
 }
+
+/* multi-page navigation */
+.nav-links a.active{color:var(--red)}.nav-links a.active::after{right:0}.mobile-panel a.active{color:var(--red);font-weight:800}main:not(.page-home)>.section:first-child{padding-top:112px}.page-pro #pro,.page-organizations #organizations,.page-support #safety{min-height:calc(100vh - var(--nav-h))}
