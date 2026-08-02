@@ -69,19 +69,22 @@ function validate() {
   return true;
 }
 
-async function waitForRecoverySession() {
+async function waitForSessionAfterExchange() {
   for (let attempt = 0; attempt < 5; attempt += 1) {
     if (attempt > 0) {
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
 
-    const { data, error } = await supabase.auth.getSession();
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
+
     if (error) {
-      console.error("[reset-password] getSession failed after code exchange:", error.message);
+      console.error("[reset-password] getSession failed after exchangeCodeForSession:", error);
       throw error;
     }
 
-    const session = data.session ?? null;
     console.info(`[reset-password] Recovery session exists after exchange attempt ${attempt + 1}:`, Boolean(session));
     if (session?.user) return session;
   }
@@ -101,45 +104,72 @@ async function establishRecoverySession() {
     showState("verifyingState");
 
     try {
-      const code = new URLSearchParams(window.location.search).get("code");
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
       console.info("[reset-password] Recovery code found:", Boolean(code));
 
-      if (!code) {
-        console.info("[reset-password] No recovery code found in URL.");
+      if (code) {
+        if (exchangedCode !== code) {
+          exchangedCode = code;
+          console.info("[reset-password] Starting exchangeCodeForSession...");
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+
+          if (error) {
+            console.error("[reset-password] Password recovery code exchange failed:", error);
+            showState("invalidState");
+            return;
+          }
+
+          console.info("[reset-password] Code exchange succeeded. Session returned:", Boolean(data?.session));
+
+          let session = data?.session ?? null;
+          if (!session?.user) {
+            session = await waitForSessionAfterExchange();
+          }
+
+          if (!session?.user) {
+            console.error("[reset-password] No recovery session was available after a successful code exchange.");
+            showState("invalidState");
+            return;
+          }
+
+          validRecoverySession = true;
+          window.history.replaceState({}, document.title, originalPath);
+          clearErrors();
+          showState("formState");
+          password.focus();
+          return;
+        }
+
+        console.info("[reset-password] Code exchange already started for this recovery code.");
+        return;
+      }
+
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("[reset-password] getSession failed without a code:", error);
         showState("invalidState");
         return;
       }
 
-      if (exchangedCode !== code) {
-        exchangedCode = code;
-        console.info("[reset-password] Starting exchangeCodeForSession...");
-        const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) {
-          console.error("[reset-password] Code exchange failed:", error.message);
-          throw error;
-        }
-        console.info("[reset-password] Code exchange succeeded. Session returned:", Boolean(data?.session));
-      } else {
-        console.info("[reset-password] Code exchange already started for this code.");
-      }
+      console.info("[reset-password] Recovery session exists without code:", Boolean(session));
 
-      const session = await waitForRecoverySession();
       if (!session?.user) {
-        console.info("[reset-password] Recovery session could not be established.");
         showState("invalidState");
         return;
       }
 
       validRecoverySession = true;
-      if (window.location.search || window.location.hash) {
-        history.replaceState({}, document.title, originalPath);
-      }
       clearErrors();
       showState("formState");
       password.focus();
     } catch (error) {
       validRecoverySession = false;
-      console.error("[reset-password] Reset flow marked link invalid:", error?.message || "Unknown error");
+      console.error("[reset-password] Reset flow initialization failed:", error);
       showState("invalidState");
     }
   })();
@@ -165,7 +195,10 @@ form.addEventListener("submit", async (event) => {
 
   try {
     const { error } = await supabase.auth.updateUser({ password: password.value });
-    if (error) throw error;
+    if (error) {
+      console.error("[reset-password] updateUser failed:", error);
+      throw error;
+    }
 
     password.value = "";
     confirm.value = "";
@@ -173,7 +206,6 @@ form.addEventListener("submit", async (event) => {
     showState("successState");
   } catch (error) {
     if (/expired|invalid|session|token|code/i.test(error?.message || "")) {
-      console.error("[reset-password] Password update failed because the recovery session is invalid:", error.message);
       showState("invalidState");
     } else {
       formError.textContent = error?.message || "We couldn’t update your password. Please try again.";
