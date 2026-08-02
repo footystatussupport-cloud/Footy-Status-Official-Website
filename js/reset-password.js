@@ -1,40 +1,41 @@
 import { supabase } from "./supabase-client.js";
 
-const states = ["verifyingState", "formState", "successState", "invalidState"];
+const states = ["continueState", "verifyingState", "formState", "successState", "invalidState"];
 const showState = (id) => states.forEach((name) => {
   document.getElementById(name).hidden = name !== id;
 });
 
 const form = document.getElementById("resetForm");
+const continueButton = document.getElementById("continueButton");
+const continueError = document.getElementById("continueError");
 const password = document.getElementById("newPassword");
 const confirm = document.getElementById("confirmPassword");
 const save = document.getElementById("saveButton");
 const formError = document.getElementById("formError");
 const originalPath = window.location.pathname;
 
-let authEventSession = null;
-let recoveryInitialized = false;
+const params = new URLSearchParams(window.location.search);
+const tokenHash = params.get("token_hash");
+const recoveryType = params.get("type");
+const errorCode = params.get("error_code");
+
+let verificationStarted = false;
 let recoverySessionReady = false;
-let submitting = false;
-let recoveryCode = null;
-let recoveryExchangePromise = null;
-
-save.textContent = "Update Password";
-
-const subscription = supabase.auth.onAuthStateChange((event, session) => {
-  console.info("[reset-password] Auth state changed:", event, Boolean(session?.user));
-
-  if (session?.user) {
-    authEventSession = session;
-  }
-}).data.subscription;
+let passwordUpdateStarted = false;
 
 function clearErrors() {
+  continueError.textContent = "";
   document.getElementById("newPasswordError").textContent = "";
   document.getElementById("confirmPasswordError").textContent = "";
   formError.textContent = "";
   password.classList.remove("invalid");
   confirm.classList.remove("invalid");
+}
+
+function showContinueState() {
+  recoverySessionReady = false;
+  clearErrors();
+  showState("continueState");
 }
 
 function showFormState() {
@@ -47,6 +48,16 @@ function showFormState() {
 function showInvalidState() {
   recoverySessionReady = false;
   showState("invalidState");
+}
+
+function setContinueButtonDisabled(disabled) {
+  continueButton.disabled = disabled;
+  continueButton.textContent = disabled ? "Verifying..." : "Continue to Password Reset";
+}
+
+function setUpdateButtonDisabled(disabled) {
+  save.disabled = disabled;
+  save.textContent = disabled ? "Updating..." : "Update Password";
 }
 
 function validate() {
@@ -79,102 +90,73 @@ function validate() {
   return true;
 }
 
-async function getCurrentSession(context) {
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.getSession();
-
-  if (error) {
-    console.error(`[reset-password] getSession failed ${context}:`, error);
-    return null;
+function initializeRecoveryPage() {
+  if (errorCode === "otp_expired") {
+    console.error("[reset-password] Recovery link already expired before verification.", { errorCode });
+    showInvalidState();
+    return;
   }
 
-  console.info(`[reset-password] Recovery session available ${context}:`, Boolean(session?.user));
-  return session?.user ? session : null;
+  if (!tokenHash || recoveryType !== "recovery") {
+    console.error("[reset-password] Reset link missing required recovery parameters.", {
+      hasTokenHash: Boolean(tokenHash),
+      recoveryType,
+      errorCode,
+    });
+    showInvalidState();
+    return;
+  }
+
+  showContinueState();
 }
 
-async function waitForRecoverySession() {
-  if (authEventSession?.user) {
-    return authEventSession;
+async function handleContinueToReset() {
+  if (verificationStarted) return;
+
+  if (!tokenHash || recoveryType !== "recovery") {
+    showInvalidState();
+    return;
   }
 
-  for (let attempt = 0; attempt < 5; attempt += 1) {
-    if (attempt > 0) {
-      await new Promise((resolve) => setTimeout(resolve, 250));
-    }
-
-    const session = await getCurrentSession(`after code exchange attempt ${attempt + 1}`);
-    if (session?.user) {
-      return session;
-    }
-
-    if (authEventSession?.user) {
-      return authEventSession;
-    }
-  }
-
-  return null;
-}
-
-async function initializePasswordRecovery() {
-  if (recoveryInitialized) {
-    return recoveryExchangePromise;
-  }
-
-  recoveryInitialized = true;
+  verificationStarted = true;
+  setContinueButtonDisabled(true);
+  clearErrors();
   showState("verifyingState");
 
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get("code");
-  console.info("[reset-password] Recovery code present:", Boolean(code));
-
-  if (!code) {
-    console.error("[reset-password] Missing recovery code in reset URL.");
-    showInvalidState();
-    return Promise.resolve();
-  }
-
-  if (recoveryCode === code && recoveryExchangePromise) {
-    return recoveryExchangePromise;
-  }
-
-  recoveryCode = code;
-  recoveryExchangePromise = (async () => {
-    console.info("[reset-password] Starting exchangeCodeForSession...");
-
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+  try {
+    const { data, error } = await supabase.auth.verifyOtp({
+      token_hash: tokenHash,
+      type: "recovery",
+    });
 
     if (error) {
-      console.error("[reset-password] Password recovery code exchange failed:", error);
-
-      const sessionAfterError = await waitForRecoverySession();
-      if (sessionAfterError?.user) {
-        console.info("[reset-password] Continuing with an already-established recovery session.");
-        showFormState();
-        return;
-      }
-
+      console.error("[reset-password] Recovery token verification failed:", {
+        message: error.message,
+        code: error.code,
+        status: error.status,
+      });
       showInvalidState();
       return;
     }
 
-    console.info("[reset-password] Code exchange finished. Session returned:", Boolean(data?.session?.user));
+    console.info("[reset-password] Recovery verification complete.", {
+      hasSession: Boolean(data?.session),
+      hasUser: Boolean(data?.user),
+    });
 
-    const session = data?.session?.user ? data.session : await waitForRecoverySession();
-    if (!session?.user) {
-      console.error("[reset-password] Code exchange completed without a recovery session.", data);
+    if (!data?.session || !data?.user) {
+      console.error("[reset-password] Recovery verification returned no session.");
       showInvalidState();
       return;
     }
 
     showFormState();
-  })().catch((error) => {
-    console.error("[reset-password] Reset flow initialization failed:", error);
+  } catch (error) {
+    console.error("[reset-password] Unexpected recovery verification error:", error);
     showInvalidState();
-  });
-
-  return recoveryExchangePromise;
+  } finally {
+    setContinueButtonDisabled(false);
+  }
 }
 
 document.querySelectorAll(".toggle-password").forEach((button) => button.addEventListener("click", () => {
@@ -185,45 +167,55 @@ document.querySelectorAll(".toggle-password").forEach((button) => button.addEven
   button.setAttribute("aria-label", `${showing ? "Show" : "Hide"} ${input.id === "newPassword" ? "new" : "confirmed"} password`);
 }));
 
+continueButton.addEventListener("click", handleContinueToReset);
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  if (submitting) return;
+  if (passwordUpdateStarted || !recoverySessionReady || !validate()) return;
 
-  await initializePasswordRecovery();
-  if (!recoverySessionReady || !validate()) return;
-
-  submitting = true;
-  save.disabled = true;
-  save.textContent = "Updating...";
+  passwordUpdateStarted = true;
+  setUpdateButtonDisabled(true);
 
   try {
-    const { error } = await supabase.auth.updateUser({ password: password.value });
+    const { data, error } = await supabase.auth.updateUser({
+      password: password.value,
+    });
 
     if (error) {
-      console.error("[reset-password] Password update failed:", error);
-      throw error;
+      console.error("[reset-password] Password update failed:", {
+        message: error.message,
+        code: error.code,
+        status: error.status,
+      });
+      formError.textContent = error.message || "Unable to update your password.";
+      passwordUpdateStarted = false;
+      return;
     }
+
+    console.info("[reset-password] Password update complete.", {
+      hasUser: Boolean(data?.user),
+    });
 
     password.value = "";
     confirm.value = "";
     clearErrors();
     recoverySessionReady = false;
     window.history.replaceState({}, document.title, originalPath);
+
+    try {
+      await supabase.auth.signOut();
+    } catch (signOutError) {
+      console.info("[reset-password] Sign-out after password update failed.", signOutError);
+    }
+
     showState("successState");
   } catch (error) {
-    const message = error?.message || "We couldn’t update your password. Please try again.";
-
-    if (/expired|invalid|session|token|code|recovery/i.test(message)) {
-      showInvalidState();
-    } else {
-      formError.textContent = message;
-    }
+    console.error("[reset-password] Unexpected password update error:", error);
+    formError.textContent = "Unable to update your password.";
+    passwordUpdateStarted = false;
   } finally {
-    submitting = false;
-    save.disabled = false;
-    save.textContent = "Update Password";
+    setUpdateButtonDisabled(false);
   }
 });
 
-window.addEventListener("pagehide", () => subscription.unsubscribe(), { once: true });
-initializePasswordRecovery();
+initializeRecoveryPage();
