@@ -8,7 +8,9 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     storage: window.localStorage,
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: true,
+    // The reset page performs the PKCE exchange explicitly so the recovery
+    // code is not consumed twice before the UI can react to the result.
+    detectSessionInUrl: false,
     flowType: "pkce",
   },
 });
