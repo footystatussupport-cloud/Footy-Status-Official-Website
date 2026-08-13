@@ -78,14 +78,14 @@
   const FAQS = [
     ["What is Footy Status?", "Footy Status is a soccer platform that connects players, parents, coaches, teams, scouts, referees, and leagues in one place — with profiles, highlights, team connections, fixtures, and results."],
     ["Who can create an account?", "Players, parents, coaches and staff, teams and academies, scouts, and referees can all create an account that matches their role in the soccer community."],
-    ["When will Footy Status launch?", "Footy Status is currently in development. Join the waitlist to be notified as soon as the app becomes available."],
+    ["When will Footy Status launch?", "Footy Status is currently in development. Launch updates will be shared through Footy Status as the app becomes available."],
     ["Will Footy Status be available on iPhone and Android?", "Yes. Footy Status is planned for release on both the Apple App Store and Google Play."],
     ["Is Footy Status free?", "Yes. Footy Status is free to join for every account type. Footy Status Pro is an optional upgrade available to player accounts."],
     ["What is included with Footy Status Pro?", "Footy Status Pro includes unlimited active highlight clips, clips up to 45 seconds, no advertisements, increased visibility in the Next Up feed, and a Pro profile badge."],
     ["Who can purchase Footy Status Pro?", "Only player accounts are eligible to purchase Footy Status Pro."],
     ["How do players connect with teams?", "Players can search for and connect with their teams directly within the app, and teams can accept or manage those connections."],
     ["How do parents connect with their children?", "Parents can link their account with their child's player profile to follow their soccer journey and receive relevant notifications."],
-    ["How can a league partner with Footy Status?", "Leagues interested in partnering can reach out through the Paired Leagues section or the contact form to start the conversation."],
+    ["How can a league partner with Footy Status?", "Leagues interested in partnering can reach out through the Paired Leagues section or email <a href='mailto:footystatusofficial@gmail.com'>footystatusofficial@gmail.com</a> to start the conversation."],
     ["How are clips reviewed?", "Clips uploaded to the Next Up feed may be reviewed before appearing publicly to help maintain a safe and high-quality community."],
     ["How can users report inappropriate content?", "Footy Status includes report and review tools so users can flag inappropriate content or behavior for administrative review."],
   ];
@@ -171,7 +171,7 @@
   const STAR_SVG = {
     STAR_RED: '<svg viewBox="0 0 24 24" fill="#e02138"><polygon points="12 2 14.9 9.1 22.5 9.5 16.5 14.3 18.6 21.5 12 17.3 5.4 21.5 7.5 14.3 1.5 9.5 9.1 9.1"/></svg>',
     STAR_ROYAL: '<svg viewBox="0 0 24 24" fill="#235ed1"><polygon points="12 2 14.9 9.1 22.5 9.5 16.5 14.3 18.6 21.5 12 17.3 5.4 21.5 7.5 14.3 1.5 9.5 9.1 9.1"/></svg>',
-    STAR_NAVY: '<svg viewBox="0 0 24 24" fill="#0a1a3c"><polygon points="12 2 14.9 9.1 22.5 9.5 16.5 14.3 18.6 21.5 12 17.3 5.4 21.5 7.5 14.3 1.5 9.5 9.1 9.1"/></svg>',
+    STAR_NAVY: '<svg viewBox="0 0 24 24" fill="#1f4ea0"><polygon points="12 2 14.9 9.1 22.5 9.5 16.5 14.3 18.6 21.5 12 17.3 5.4 21.5 7.5 14.3 1.5 9.5 9.1 9.1"/></svg>',
     STAR_WHITE: '<svg viewBox="0 0 24 24" fill="#ffffff"><polygon points="12 2 14.9 9.1 22.5 9.5 16.5 14.3 18.6 21.5 12 17.3 5.4 21.5 7.5 14.3 1.5 9.5 9.1 9.1"/></svg>',
   };
 
@@ -228,42 +228,6 @@
     items.forEach((el) => observer.observe(el));
   }
 
-  /* --------------------------------- Forms -------------------------------------- */
-
-  function initWaitlistForm() {
-    const form = document.getElementById("waitlistForm");
-    const success = document.getElementById("waitlistSuccess");
-    if (!form) return;
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      // TODO: connect to email platform / database once available.
-      form.classList.add("hide");
-      success.classList.add("show");
-    });
-  }
-
-  function initContactForm() {
-    const form = document.getElementById("contactForm");
-    const success = document.getElementById("contactSuccess");
-    if (!form) return;
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      // TODO: connect to support inbox / CRM once available.
-      success.classList.add("show");
-      form.reset();
-    });
-  }
-
   /* ---------------------------------- Init --------------------------------------- */
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -274,7 +238,5 @@
     renderStars();
     initNav();
     initReveal();
-    initWaitlistForm();
-    initContactForm();
   });
 })();
