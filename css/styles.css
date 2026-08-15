@@ -1070,6 +1070,109 @@ main > section.section:nth-of-type(3n)::after {
   border-radius: 999px;
 }
 
+/* ---------------------- Fixture results spotlight -------------------------- */
+
+#fixture-results.section {
+  padding: 76px 0 46px;
+}
+
+#features.section {
+  padding-top: 46px;
+}
+
+.fixture-results-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+  grid-template-areas:
+    "copy visual"
+    "notes visual";
+  align-items: center;
+  column-gap: clamp(44px, 5vw, 92px);
+  row-gap: 18px;
+}
+
+.fixture-results-copy {
+  grid-area: copy;
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  max-width: 640px;
+}
+
+.fixture-results-copy h2 {
+  font-size: clamp(1.9rem, 3.6vw, 2.85rem);
+  color: var(--title-navy);
+  line-height: 1.04;
+  max-width: none;
+}
+
+.fixture-results-copy h2 .accent {
+  color: var(--red);
+}
+
+.fixture-results-points {
+  display: grid;
+  gap: 13px;
+}
+
+.fixture-results-points li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 12px;
+  align-items: start;
+  color: var(--title-navy);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.fixture-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-top: 6px;
+  box-shadow: 0 0 0 6px rgba(224, 33, 56, 0.12);
+}
+
+.fixture-results-description {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 58ch;
+}
+
+.fixture-results-visual {
+  grid-area: visual;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+}
+
+.fixture-results-shot {
+  margin: 0;
+  width: min(100%, 760px);
+}
+
+.fixture-results-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.fixture-results-notes {
+  grid-area: notes;
+  display: grid;
+  gap: 8px;
+  max-width: 520px;
+}
+
+.fixture-results-notes p {
+  color: var(--muted-light);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
 /* ------------------------------- Feature grid ------------------------------ */
 
 .feature-grid {
@@ -1770,6 +1873,32 @@ main > section.section:nth-of-type(3n)::after {
   .nextup { grid-template-columns: 1fr; gap: 32px; }
   .nextup-visual { order: -1; justify-content: center; }
   .nextup-shot { width: min(100%, 500px); margin-left: 0; justify-content: center; }
+  .fixture-results-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "copy"
+      "visual"
+      "notes";
+    gap: 28px;
+  }
+  .fixture-results-copy {
+    max-width: none;
+  }
+  .fixture-results-copy h2 {
+    max-width: none;
+  }
+  .fixture-results-description {
+    max-width: none;
+  }
+  .fixture-results-visual {
+    justify-content: center;
+  }
+  .fixture-results-shot {
+    width: min(100%, 780px);
+  }
+  .fixture-results-notes {
+    max-width: none;
+  }
   .pricing-grid { grid-template-columns: 1fr; }
   .price-card.best { transform: none; }
   .contact-wrap { grid-template-columns: 1fr; }
@@ -1782,6 +1911,8 @@ main > section.section:nth-of-type(3n)::after {
   .section { padding: 64px 0; }
   #purpose.section { padding-top: 46px; }
   #next-up.section { padding: 56px 0 60px; }
+  #fixture-results.section { padding: 56px 0 40px; }
+  #features.section { padding-top: 40px; }
   .form-row { grid-template-columns: 1fr; }
 }
 
@@ -1803,7 +1934,24 @@ main > section.section:nth-of-type(3n)::after {
   .hero-badge { margin-bottom: 16px; }
   #purpose.section { padding-top: 38px; }
   #next-up.section { padding: 42px 0 46px; }
+  #fixture-results.section { padding: 42px 0 30px; }
+  #features.section { padding-top: 32px; }
   .nextup-shot { width: min(100%, 360px); }
+  .fixture-results-copy {
+    gap: 16px;
+  }
+  .fixture-results-copy h2 {
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+  .fixture-results-points li {
+    font-size: 0.96rem;
+  }
+  .fixture-results-shot {
+    width: min(100%, 590px);
+  }
+  .fixture-results-notes {
+    padding-left: 14px;
+  }
   .phone-mock { width: 240px; height: 490px; }
   .hero-app-shot { width: min(100%, 290px); }
   .phone-screen { border-radius: 28px; }
