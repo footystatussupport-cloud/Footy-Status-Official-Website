@@ -78,8 +78,8 @@
   const FAQS = [
     ["What is Footy Status?", "Footy Status is a soccer platform that connects players, parents, coaches, teams, scouts, referees, and leagues in one place — with profiles, highlights, team connections, fixtures, and results."],
     ["Who can create an account?", "Players, parents, coaches and staff, teams and academies, scouts, and referees can all create an account that matches their role in the soccer community."],
-    ["When will Footy Status launch?", "Footy Status is currently in development. Launch updates will be shared through Footy Status as the app becomes available."],
-    ["Will Footy Status be available on iPhone and Android?", "Yes. Footy Status is planned for release on both the Apple App Store and Google Play."],
+    ["When will Footy Status launch?", "Footy Status is now available on iPhone through the Apple App Store. Google Play timing will be shared separately."],
+    ["Will Footy Status be available on iPhone and Android?", "Footy Status is available now on iPhone through the Apple App Store. Google Play availability will be announced separately."],
     ["Is Footy Status free?", "Yes. Footy Status is free to join for every account type. Footy Status Pro is an optional upgrade available to player accounts."],
     ["What is included with Footy Status Pro?", "Footy Status Pro includes unlimited active highlight clips, clips up to 45 seconds, no advertisements, increased visibility in the Next Up feed, and a Pro profile badge."],
     ["Who can purchase Footy Status Pro?", "Only player accounts are eligible to purchase Footy Status Pro."],
